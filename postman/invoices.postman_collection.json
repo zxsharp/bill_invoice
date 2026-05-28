@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "invoices",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Invoice CRUD endpoints"
+  },
+  "item": [
+    {
+      "name": "Create Invoice",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"customer\":\"Client A\",\"items\":[{\"desc\":\"Service\",\"qty\":1,\"price\":100}],\"total\":100}" },
+        "url": "{{baseUrl}}/api/invoices"
+      }
+    },
+    {
+      "name": "List Invoices",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": "{{baseUrl}}/api/invoices"
+      }
+    },
+    {
+      "name": "Get Invoice",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": "{{baseUrl}}/api/invoices/{{invoiceId}}"
+      }
+    },
+    {
+      "name": "Update Invoice",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"status\":\"paid\"}" },
+        "url": "{{baseUrl}}/api/invoices/{{invoiceId}}"
+      }
+    },
+    {
+      "name": "Delete Invoice",
+      "request": {
+        "method": "DELETE",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": "{{baseUrl}}/api/invoices/{{invoiceId}}"
+      }
+    }
+  ]
+}

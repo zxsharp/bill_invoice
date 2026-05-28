@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "User CRUD endpoints"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"name\":\"New User\",\"email\":\"new@example.com\",\"password\":\"pass12345\"}" },
+        "url": "{{baseUrl}}/api/users"
+      }
+    },
+    {
+      "name": "List Users",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": "{{baseUrl}}/api/users"
+      }
+    },
+    {
+      "name": "Get User",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": "{{baseUrl}}/api/users/{{userId}}"
+      }
+    },
+    {
+      "name": "Update User",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"name\":\"Updated Name\"}" },
+        "url": "{{baseUrl}}/api/users/{{userId}}"
+      }
+    },
+    {
+      "name": "Delete User",
+      "request": {
+        "method": "DELETE",
+        "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+        "url": "{{baseUrl}}/api/users/{{userId}}"
+      }
+    }
+  ]
+}
