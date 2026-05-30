@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 
 # copy package files first for better caching
@@ -8,7 +8,7 @@ COPY src ./src
 RUN npm ci
 RUN npm run build
 
-FROM node:18-alpine
+FROM node:20-alpine
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
