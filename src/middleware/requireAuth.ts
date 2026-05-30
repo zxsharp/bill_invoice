@@ -12,7 +12,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
       return next(err);
     }
 
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split(' ')[1]!;
     let decoded;
     try {
       decoded = verifyAccess(token);

@@ -27,7 +27,7 @@ router.get('/all', async (req: Request, res: Response) => {
 // Get user by id
 router.get('/:id', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid id' });
     const user = await User.findById(id).select('_id name email companyName companyLogo createdAt updatedAt');
     if (!user) return res.status(404).json({ message: 'User not found' });
@@ -40,7 +40,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 // Update user
 router.put('/:id', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid id' });
     const updated = await User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     if (!updated) return res.status(404).json({ message: 'User not found' });
@@ -53,7 +53,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 // Delete (soft) user
 router.delete('/:id', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid id' });
     const deleted = await User.findByIdAndUpdate(id, { isDeleted: true, deletedAt: new Date() }, { new: true });
     if (!deleted) return res.status(404).json({ message: 'User not found' });

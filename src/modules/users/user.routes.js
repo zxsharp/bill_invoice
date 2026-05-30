@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const mongoose_1 = require("mongoose");
+const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = require("./user.model");
 const router = (0, express_1.Router)();
+// List users (non-deleted)
 router.get('/', async (req, res) => {
     try {
         const users = await user_model_1.User.find({ isDeleted: false }).select('_id name email companyName companyLogo createdAt updatedAt');
@@ -23,6 +27,7 @@ router.get('/all', async (req, res) => {
         res.status(500).json({ message: 'List users failed', error: err.message });
     }
 });
+// Get user by id
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -37,6 +42,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: 'Get user failed', error: err.message });
     }
 });
+// Update user
 router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -51,6 +57,7 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ message: 'Update user failed', error: err.message });
     }
 });
+// Delete (soft) user
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -65,6 +72,7 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ message: 'Delete user failed', error: err.message });
     }
 });
+// Create user (legacy clients use /create)
 router.post('/', async (req, res) => {
     try {
         const { name, email, password, companyName, companyLogo } = req.body;

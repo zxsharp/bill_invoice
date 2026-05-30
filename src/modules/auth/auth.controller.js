@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.refresh = exports.login = exports.register = void 0;
+exports.me = exports.logout = exports.refresh = exports.login = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = require("../users/user.model");
 const jwt_1 = require("../../utils/jwt");
@@ -37,7 +37,20 @@ const login = async (req, res, next) => {
             err.code = 'UNAUTHORIZED';
             return next(err);
         }
-        const isValid = await bcryptjs_1.default.compare(password, user.password);
+        let isValid = false;
+        const stored = user.password || '';
+        const looksHashed = stored.startsWith('$2');
+        if (looksHashed) {
+            isValid = await bcryptjs_1.default.compare(password, stored);
+        }
+        else {
+            // Legacy/seeded plaintext password — accept if equal and re-hash it for security
+            if (password === stored) {
+                isValid = true;
+                user.password = await bcryptjs_1.default.hash(password, 10);
+                await user.save();
+            }
+        }
         if (!isValid) {
             const err = new Error('Invalid credentials');
             err.statusCode = 401;
